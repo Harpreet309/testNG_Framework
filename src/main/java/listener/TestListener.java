@@ -29,8 +29,20 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult result) {
-        ExtentTest test = extent.createTest(result.getMethod().getMethodName());
-        testThread.set(test);
+        ExtentTest extentTest = extent.createTest(
+                result.getTestClass().getRealClass().getSimpleName() + " :: " + result.getMethod().getMethodName()
+        );
+        testThread.set(extentTest);
+
+        // Assign to BaseTest.test
+        Object instance = result.getInstance();
+        try {
+            Field f = instance.getClass().getSuperclass().getDeclaredField("test");
+            f.setAccessible(true);
+            f.set(instance, extentTest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

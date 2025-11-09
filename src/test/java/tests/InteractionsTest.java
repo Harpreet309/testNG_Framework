@@ -16,7 +16,8 @@ public class InteractionsTest extends BaseTest {
 
     @Test
     public void verifyAllInteractions() throws InterruptedException {
-        ExtentTest test = TestListener.getTest();
+//        ExtentTest test = TestListener.getTest();
+        test.info("Verifying interactions on UI...");
         InteractionsPage page = new InteractionsPage(driver, test);
         List<String> expectedActions = Arrays.asList("Sortable", "Selectable", "Resizable", "Droppable", "Dragabble");
 
@@ -27,5 +28,7 @@ public class InteractionsTest extends BaseTest {
         Assert.assertTrue(page.performResizable(), "❌ Resizable did not work correctly");
         Assert.assertTrue(page.performDroppable(), "❌ Droppable did not work correctly");
         Assert.assertTrue(page.performDraggable(), "❌ Draggable did not work correctly");
+
+        test.pass("✅ All UI interactions verified successfully.");
     }
 }

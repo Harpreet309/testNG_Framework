@@ -1,8 +1,6 @@
 package tests;
 
 import base.BaseTest;
-import com.aventstack.extentreports.ExtentTest;
-import listener.TestListener;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -14,27 +12,42 @@ import java.io.IOException;
 @Listeners(listener.TestListener.class)
 public class FormsTest extends BaseTest {
 
-    @Test
+    excel data = new excel();
+
+    @Test(priority = 1)
     public void fillFormTest() throws IOException, InterruptedException {
-        ExtentTest test = TestListener.getTest();
+        test.info("Filling out form...");
         FormsPage formsPage = new FormsPage(driver, test);
-        excel data = new excel();
-        test.info("Starting fillFormTest");
+
         formsPage.openForm();
-        formsPage.fillForm(data.getData("First Name").get(1), data.getData("Last Name").get(1), data.getData("Email").get(1),
-                data.getData("Mobile Number").get(1), data.getData("Subjects").get(1), data.getData("Current Address").get(1));
-        test.pass("Form submission test executed successfully ✅");
+        formsPage.fillForm(
+                data.getData("First Name").get(1),
+                data.getData("Last Name").get(1),
+                data.getData("Email").get(1),
+                data.getData("Mobile Number").get(1),
+                data.getData("Subjects").get(1),
+                data.getData("Current Address").get(1)
+        );
+
+        test.pass("✅ Form filled successfully.");
     }
 
-    @Test(dependsOnMethods = {"fillFormTest"})
+    @Test(dependsOnMethods = "fillFormTest", priority = 2)
     public void assertFormTest() throws IOException, InterruptedException {
-        ExtentTest test = TestListener.getTest();
+        test.info("Validating submitted form data...");
         FormsPage formsPage = new FormsPage(driver, test);
-        excel data = new excel();
-        test.info("validating fillFormTest");
-        boolean testResult = formsPage.assertForm(data.getData("First Name").get(1), data.getData("Last Name").get(1), data.getData("Email").get(1),
-                data.getData("Mobile Number").get(1), data.getData("Subjects").get(1), data.getData("Current Address").get(1), "Thanks for submitting the form");
-        Assert.assertTrue(testResult, "Form submission test executed successfully with correct inputs!!");
-        test.pass("Form submission test executed successfully with correct inputs ✅");
+
+        boolean result = formsPage.assertForm(
+                data.getData("First Name").get(1),
+                data.getData("Last Name").get(1),
+                data.getData("Email").get(1),
+                data.getData("Mobile Number").get(1),
+                data.getData("Subjects").get(1),
+                data.getData("Current Address").get(1),
+                "Thanks for submitting the form"
+        );
+
+        Assert.assertTrue(result, "Form validation failed!");
+        test.pass("✅ Form data validated successfully.");
     }
 }

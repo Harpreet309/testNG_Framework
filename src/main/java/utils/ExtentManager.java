@@ -4,7 +4,7 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
 public class ExtentManager {
-    private static ExtentReports extent;
+    public static ExtentReports extent;
 
     public synchronized static ExtentReports getInstance() {
         if (extent == null) {
@@ -13,6 +13,8 @@ public class ExtentManager {
             reporter.config().setReportName("Test Execution Report");
             extent = new ExtentReports();
             extent.attachReporter(reporter);
+            extent.setSystemInfo("Tester", "Harpreet Singh");
+            extent.setSystemInfo("Environment", "QA");
         }
         return extent;
     }
