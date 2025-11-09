@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo '🔄 Checking out code from GitHub...'
-                git branch: 'main', url: 'https://github.com/<your-username>/<your-repo>.git'
+                git branch: 'main', url: 'https://github.com/Harpreet309/testNG_Framework.git'
             }
         }
 
