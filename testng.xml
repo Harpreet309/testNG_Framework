@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Forms Test Suite" parallel="false">
+
+    <!-- Attach your Extent report listener -->
+    <listeners>
+        <listener class-name="listener.TestListener" />
+    </listeners>
+
+    <test name="Form Submission Flow">
+        <classes>
+            <!-- Full package name of your test class -->
+            <class name="tests.FormsTest">
+                <methods>
+                    <include name="fillFormTest"/>
+                    <include name="assertFormTest"/>
+                </methods>
+            </class>
+            <class name="tests.InteractionsTest">
+                <methods>
+                    <include name="verifyAllInteractions"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>
