@@ -166,7 +166,7 @@ public class FormsPage extends BasePage {
         Assert.assertEquals(getMobile.getText().trim(), mobileNumber);
         Assert.assertEquals(getAddress.getText().trim(), currentAddress);
         actions.waitFor(2000); // to slow up the execution
-//        Assert.assertEquals(actions.makeArray(subjects), actions.makeArray(getSubjects.getText()));
+        Assert.assertEquals(actions.makeArray(subjects), actions.makeArray(getSubjects.getText()));
         Assert.assertEquals(getHobbies.getText().trim(), hobbies);
         Assert.assertEquals(getPicture.getText().trim(), fileName);
         Assert.assertEquals(getStateAndCity.getText().trim(), stateAndCity);

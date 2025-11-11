@@ -100,6 +100,10 @@ public class ElementActions {
         log("Waited for " + milliseconds + " ms");
     }
 
+    public String[] makeArray(String input) {
+        return input.trim().split(",");
+    }
+
     private void log(String message) {
         if (test != null) test.log(com.aventstack.extentreports.Status.INFO, message);
     }
