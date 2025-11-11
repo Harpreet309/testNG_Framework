@@ -2,6 +2,7 @@ package listener;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 
 import org.openqa.selenium.WebDriver;
@@ -11,6 +12,7 @@ import org.testng.ITestResult;
 import utils.ExtentManager;
 import utils.ScreenshotUtil;
 
+import java.io.File;
 import java.lang.reflect.Field;
 
 public class TestListener implements ITestListener {
@@ -52,15 +54,24 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
-        testThread.get().log(Status.FAIL, result.getThrowable());
+        ExtentTest test = testThread.get();
+        test.log(Status.FAIL, result.getThrowable());
+
         Object testClass = result.getInstance();
         try {
             Field f = testClass.getClass().getSuperclass().getDeclaredField("driver");
             f.setAccessible(true);
             Object driverObj = f.get(testClass);
+
             if (driverObj instanceof WebDriver) {
-                String path = ScreenshotUtil.takeScreenshot((WebDriver) driverObj, result.getMethod().getMethodName());
-                if (path != null) testThread.get().addScreenCaptureFromPath(path);
+                WebDriver driver = (WebDriver) driverObj;
+                String relativePath = ScreenshotUtil.takeScreenshot(driver, result.getMethod().getMethodName());
+
+                if (relativePath != null) {
+                    // ✅ Proper clickable thumbnail inside Extent report
+                    test.fail("Screenshot on failure:",
+                            MediaEntityBuilder.createScreenCaptureFromPath(relativePath).build());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

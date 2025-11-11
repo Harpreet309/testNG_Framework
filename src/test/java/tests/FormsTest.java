@@ -1,6 +1,7 @@
 package tests;
 
 import base.BaseTest;
+import models.FormData;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -21,15 +22,15 @@ public class FormsTest extends BaseTest {
 
         formsPage.openForm();
         formsPage.fillForm(
-                data.getData("First Name").get(1),
-                data.getData("Last Name").get(1),
-                data.getData("Email").get(1),
-                data.getData("Mobile Number").get(1),
-                data.getData("Subjects").get(1),
-                data.getData("Current Address").get(1)
+                formData.getFirstName(),
+                formData.getLastName(),
+                formData.getEmail(),
+                formData.getMobileNumber(),
+                formData.getSubjects(),
+                formData.getCurrentAddress()
         );
 
-        test.pass("✅ Form filled successfully.");
+        test.pass("Form filled successfully.");
     }
 
     @Test(dependsOnMethods = "fillFormTest", priority = 2)
@@ -38,16 +39,21 @@ public class FormsTest extends BaseTest {
         FormsPage formsPage = new FormsPage(driver, test);
 
         boolean result = formsPage.assertForm(
-                data.getData("First Name").get(1),
-                data.getData("Last Name").get(1),
-                data.getData("Email").get(1),
-                data.getData("Mobile Number").get(1),
-                data.getData("Subjects").get(1),
-                data.getData("Current Address").get(1),
-                "Thanks for submitting the form"
+                formData.getFirstName(),
+                formData.getLastName(),
+                formData.getEmail(),
+                formData.getMobileNumber(),
+                formData.getSubjects(),
+                formData.getCurrentAddress(),
+                formData.getGender(),
+                formData.getHobbies(),
+                formData.getState(),
+                formData.getCity(),
+                formData.getDateOfBirth(),
+                formData.getSuccessMessage()
         );
 
         Assert.assertTrue(result, "Form validation failed!");
-        test.pass("✅ Form data validated successfully.");
+        test.pass("Form data validated successfully.");
     }
 }

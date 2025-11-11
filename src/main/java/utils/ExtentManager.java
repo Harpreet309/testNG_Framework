@@ -14,7 +14,8 @@ public class ExtentManager {
             extent = new ExtentReports();
             extent.attachReporter(reporter);
             extent.setSystemInfo("Tester", "Harpreet Singh");
-            extent.setSystemInfo("Environment", "QA");
+            extent.setSystemInfo("Environment", "Testing");
+            extent.setSystemInfo("Organisation", "IRIS SOFTWARE");
         }
         return extent;
     }

@@ -15,9 +15,6 @@ import java.sql.Statement;
 @Listeners(listener.TestListener.class)
 public class StudentDBTest extends BaseTest {
 
-    // ✅ Each @Test method will automatically get ExtentTest from listener
-    // (no need to manually assign)
-
     /**
      * Step 1: Create Students table
      */
@@ -37,7 +34,7 @@ public class StudentDBTest extends BaseTest {
             test.pass("✅ 'Students' table created successfully.");
 
         } catch (Exception e) {
-            test.fail("❌ Failed to create 'Students' table: " + e.getMessage());
+            test.fail("Failed to create 'Students' table: " + e.getMessage());
             throw e;
         }
     }
@@ -63,7 +60,7 @@ public class StudentDBTest extends BaseTest {
             test.pass("✅ Data inserted successfully into 'Students' table.");
 
         } catch (Exception e) {
-            test.fail("❌ Failed to insert data: " + e.getMessage());
+            test.fail("Failed to insert data: " + e.getMessage());
             throw e;
         }
     }
@@ -86,7 +83,7 @@ public class StudentDBTest extends BaseTest {
             test.pass("✅ Data validation successful. Record values match expected data.");
 
         } catch (Exception e) {
-            test.fail("❌ Data validation failed: " + e.getMessage());
+            test.fail("Data validation failed: " + e.getMessage());
             throw e;
         }
     }
@@ -101,10 +98,10 @@ public class StudentDBTest extends BaseTest {
              Statement stmt = conn.createStatement()) {
 
             stmt.executeUpdate("DROP TABLE IF EXISTS Students");
-            test.pass("✅ 'Students' table dropped successfully.");
+            test.pass("'Students' table dropped successfully.");
 
         } catch (Exception e) {
-            test.fail("❌ Failed to drop table: " + e.getMessage());
+            test.fail("Failed to drop table: " + e.getMessage());
             throw e;
         }
     }

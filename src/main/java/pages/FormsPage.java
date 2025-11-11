@@ -108,31 +108,35 @@ public class FormsPage extends BasePage {
     public void openForm() throws InterruptedException {
         String url = ConfigReader.get("formUrl");
         driver.get(url);
-        Thread.sleep(2000); // to load ads
+        actions.waitFor(2000); // to load ads
         uti.removeAds(driver);
         logInfo("Navigated to form URL: " + url);
-        logPass("Opened Practice Form successfully ✅");
+        captureScreenshot("Form_Page_Loaded");
+        logPass("Opened Practice Form successfully");
     }
 
     public void fillForm(String firstName, String lastName, String email, String mobileNumber, String subjects, String currentAddress ) throws InterruptedException {
+        String monthToSelect = "November";
+        String yearToSelect = "1994";
         String filePath = System.getProperty("user.dir") + ConfigReader.get("image");
-        actions.log(Status.INFO, "Navigating to URL: " + ConfigReader.get("formUrl"));
+        logInfo("Navigating to URL: " + ConfigReader.get("formUrl"));
         actions.click(practiceForm);
         actions.scrollIntoView(this.subjects);
 
         actions.sendKeys(this.firstName, firstName);
         actions.sendKeys(this.lastName, lastName);
         actions.sendKeys(this.email, email);
+        captureScreenshot("Form_Filled_Partial");
 
         actions.click(male);
         actions.sendKeys(this.mobileNumber, mobileNumber);
 
         actions.click(dateOfBirth);
-        actions.selectBy(month, "November");
-        actions.selectBy(year, "1994");
+        actions.selectByText(this.month, monthToSelect);
+        actions.selectByText(this.year, yearToSelect);
         actions.click(date);
 
-        actions.log(Status.INFO, "Selecting subjects: " + subjects);
+        logInfo("Selecting subjects: " + subjects);
         actions.selectSubjects(this.subjects, subjects);
 
         actions.click(sportsHobby);
@@ -146,24 +150,30 @@ public class FormsPage extends BasePage {
         actions.scrollIntoView(cityDropdown);
         actions.click(cityDropdown);
         actions.click(delhiOption);
+        captureScreenshot("Form_Filled_Complete");
         actions.click(submitButton);
-        actions.log(Status.PASS, "Form filled successfully ✅");
+        captureScreenshot("Form_Submitted");
+        logPass("Form filled successfully");
     }
 
-    public boolean assertForm(String firstName, String lastName, String email, String mobileNumber, String subjects, String currentAddress, String successMessage) throws InterruptedException {
+    public boolean assertForm(String firstName, String lastName, String email, String mobileNumber, String subjects, String currentAddress, String gender, String hobbies, String state, String city, String dob, String successMessage) throws InterruptedException {
+        String stateAndCity = state + " " + city;
         String filePath = System.getProperty("user.dir") + ConfigReader.get("image");
         String fileName = new File(filePath).getName();
-        Assert.assertEquals(successMessage, formSubmissionTitle.getText().trim());
-        Assert.assertEquals(firstName + " " + lastName, getStudentName.getText().trim());
-        Assert.assertEquals(email, getStudentEmail.getText().trim());
-        Assert.assertEquals(mobileNumber, getMobile.getText().trim());
-        Assert.assertEquals(currentAddress, getAddress.getText().trim());
-        Thread.sleep(2000); // to slow up the execution
+        Assert.assertEquals(formSubmissionTitle.getText().trim(), successMessage);
+        Assert.assertEquals(getStudentName.getText().trim(), firstName + " " + lastName );
+        Assert.assertEquals(getStudentEmail.getText().trim(), email);
+        Assert.assertEquals(getMobile.getText().trim(), mobileNumber);
+        Assert.assertEquals(getAddress.getText().trim(), currentAddress);
+        actions.waitFor(2000); // to slow up the execution
 //        Assert.assertEquals(actions.makeArray(subjects), actions.makeArray(getSubjects.getText()));
-        Assert.assertEquals(getHobbies.getText().trim(), "Sports");
+        Assert.assertEquals(getHobbies.getText().trim(), hobbies);
         Assert.assertEquals(getPicture.getText().trim(), fileName);
-        Assert.assertEquals(getStateAndCity.getText().trim(), "NCR Delhi");
-        Assert.assertEquals(getDateOfBirth.getText().trim(), "17 November,1994");
+        Assert.assertEquals(getStateAndCity.getText().trim(), stateAndCity);
+        Assert.assertEquals(getDateOfBirth.getText().trim(), dob);
+        Assert.assertEquals(getGender.getText().trim(), gender);
+        captureScreenshot("Form_Validation_Complete");
+        logPass("Form data validated successfully");
         return true;
     }
 }

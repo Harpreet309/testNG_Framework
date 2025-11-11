@@ -42,12 +42,12 @@ public class utilities {
             for (int i = 0; i < 2; i++) {
                 js.executeScript(script);
                 System.out.println("🧹 Ad removal pass " + (i + 1) + " completed.");
-                Thread.sleep(2000); // wait 4s before next cleanup
+                Thread.sleep(2000); // wait 2s before next cleanup
             }
 
-            System.out.println("✅ Ads and videos removed successfully.");
+            System.out.println("Ads and videos removed successfully.");
         } catch (Exception e) {
-            System.out.println("⚠️ Ad removal failed: " + e.getMessage());
+            System.out.println("Ad removal failed: " + e.getMessage());
         }
     }
 }

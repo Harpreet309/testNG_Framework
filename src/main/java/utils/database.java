@@ -10,7 +10,6 @@ public class database {
     private static final String USER = ConfigReader.get("db.username");// DB username
     private static final String PASSWORD = ConfigReader.get("db.password"); // DB password
 
-    // ✅ This method creates the connection using the above details
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
